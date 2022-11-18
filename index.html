@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background: url(./貓貓名畫/bg-game.jpg) no-repeat center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .info {
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(transparent, transparent);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      text-align: center;
+      line-height: 5;
+      color: #fff;
+    }
+
+    button {
+      color: #000;
+      box-shadow: 2px 2px 5px #ccc;
+      border: none;
+      border-radius: 20px;
+      width: 100px;
+      height: 30px;
+      line-height: 20px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    #game {
+      width: 40%;
+      background: radial-gradient(#e5e5e5, transparent);
+      backdrop-filter: blur(20px);
+    }
+
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
+
+    .none {
+      display: none;
+    }
+
+
+    /* 使用css 3D */
+    .card {
+      width: 50px;
+      height: 100px;
+      position: relative;
+      transition: transform 1s;
+      /* 設定子元素在3D空間內 */
+      transform-style: preserve-3d;
+      margin: .2rem;
+    }
+
+    .card-front {
+      width: 100%;
+      height: 100%;
+      background: url(./貓貓名畫/A1.jpg) no-repeat center/cover;
+      border-radius: 20px;
+      position: absolute;
+      /* 設定隱藏背面 */
+      backface-visibility: hidden;
+    }
+
+    .card-back {
+      width: 100%;
+      height: 100%;
+      background: url(./貓貓名畫/bg.jpg) no-repeat center/cover;
+      border-radius: 20px;
+      position: absolute;
+      transform: rotateY(180deg);
+      /* 設定隱藏背面 */
+      backface-visibility: hidden;
+    }
+
+    .card-close {
+      transform: rotateY(180deg);
+    }
+
+
+    @media(min-width:768px) {
+      body {
+        background: url(./貓貓名畫/bg-game.jpg) repeat 200%;
+      }
+
+      #game {
+        width: 60%;
+      }
+
+      .card {
+        width: 100px;
+        height: 220px;
+      }
+    }
+
+
+    @media(min-width:1280px) {
+      body {
+        background: url(./貓貓名畫/bg-game.jpg) no-repeat -180px /160% 120%;
+      }
+
+      #game {
+        width: 50%;
+      }
+
+      .card {
+        width: 150px;
+        height: 210px;
+      }
+    }
+
+    @media(min-width:1440px) {
+      body {
+        background: url(./貓貓名畫/bg-game.jpg) no-repeat -200px /160% 120%;
+      }
+
+      #game {
+        width: 50%;
+      }
+
+      .card {
+        width: 150px;
+        height: 210px;
+      }
+    }
+
+    @media(min-width:2200px) {
+      body {
+        background: url(./貓貓名畫/bg-game.jpg) no-repeat -280px /160% 120%;
+      }
+
+      #game {
+        width: 45%;
+      }
+
+      .card {
+        width: 220px;
+        height: 278px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <div class="card"> -->
+  <!-- 撲克牌前 -->
+  <!-- <div class="card-front"></div> -->
+  <!-- 撲克牌後 -->
+  <!-- <div class="card-back"></div> -->
+  <!-- </div> -->
+  <div id="game" class="none"></div>
+  <div class="info">
+    <h1>遊戲說明</h1>
+    <p>貓咪變成世界名畫了！請找到貓咪對應名畫！</p>
+    <br>
+    <button>遊戲開始</button>
+  </div>
+
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js'
+    integrity='sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=='
+    crossorigin='anonymous'></script>
+  <script>
+    $('.info button').on('click', function () {
+      $('.info').hide()
+      $('#game').removeClass('none')
+      $('#game').addClass('flex')
+    })
+    // 產生16張卡片
+    for (let i = 0; i < 16; i++) {
+      $('#game').append(`
+            <div class="card card-close">
+            <div class="card-front"></div>
+            <div class="card-back"></div>
+            </div>
+            `)
+    }
+
+    for (let i = 0; i < $('.card').length; i++) {
+      // 決定數字
+      const num = i % 8 + 1
+      // 16 % 8 = 0 ; 0 + 1
+      // 決定好後換圖案卡片
+      const aaa = Math.floor(i / ($('.card').length / 2))
+      console.log(`${aaa ? 'B' : 'A'}${num}.jpg`);
+      $('.card').eq(i).find('.card-front').css('background-image', `url(./貓貓名畫/${aaa ? 'B' : 'A'}${num}.jpg)`)
+      // $('.card').eq(i).find('.card-front').css('background-image', `url(./翻牌-透明君/b${num}.jpg)`)
+      console.log($('card').eq(i))
+      // data開頭命名代表暫存資料放入html data
+      $('.card').eq(i).attr('data-num', num)
+
+      // 打散數字
+      // 從0-15隨機挑一張，16跟15差一張，故減1
+      const target = Math.round(Math.random() * ($('.card').length - 1))
+      //隨機找一張讓入迴圈的後面，打散卡牌
+      $('.card').eq(target).insertAfter($('.card').eq(i))
+    }
+
+    // 點擊後執行function
+    $('#game').on('click', '.card', function () {
+      // 最多一次翻兩張，且長度小於兩張
+      // not(.card-close) 卡片沒有翻開
+      if ($('.card:not(.card-close').length < 2 &&
+        $(this).hasClass('card-close') &&
+        !$(this).hasClass('card-ok')
+      ) {
+        $(this).removeClass('card-close')
+      }
+
+      // 如果翻開兩張
+      if ($('.card:not(.card-close)').length === 2) {
+        // 如果兩張數字一樣
+        if ($('.card:not(.card-close)').eq(0).attr('data-num') === $('.card:not(.card-close)').eq(1).attr('data-num')) {
+          // 用 card-ok 標記已完成
+          $('.card:not(.card-close)').addClass('card-ok')
+          // 配對成功飛走
+          $('.card:not(.card-close)').fadeTo(1000, 0)
+        }
+
+        // 不管數字是否一樣都把卡片翻回來
+        setTimeout(() => {
+          $('.card:not(.card-close)').addClass('card-close')
+          if ($('.card-ok').length === $('.card').length) {
+            Swal.fire({
+              icon: 'success',
+              title: '恭喜',
+              text: '恭喜過關'
+            })
+          }
+        }, 1500)
+      }
+    })
+  </script>
+</body>
+
+</html>
